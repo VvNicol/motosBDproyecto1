@@ -1,0 +1,333 @@
+-- Table: dlk_motos.usuario
+
+-- DROP TABLE IF EXISTS dlk_motos.usuario;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.usuario
+(
+    nombre_usuario character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    apellidos_usuario character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    correo_usuario character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    foto_usuario character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    tel_usuario bigint DEFAULT 11111,
+    "esClub" boolean,
+    id_usuario bigint NOT NULL,
+    contra_usuario character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    CONSTRAINT "Usuario_pkey" PRIMARY KEY (id_usuario)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.usuario
+    OWNER to postgres;
+-- Index: fki_eventoRegis
+
+-- DROP INDEX IF EXISTS dlk_motos."fki_eventoRegis";
+
+CREATE INDEX IF NOT EXISTS "fki_eventoRegis"
+    ON dlk_motos.usuario USING btree
+    (id_usuario ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Table: dlk_motos.moto
+
+-- DROP TABLE IF EXISTS dlk_motos.moto;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.moto
+(
+    id_moto bigint NOT NULL,
+    matricula_moto character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    "fechaRegistro_moto" time with time zone,
+    tipo_moto character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    "motoUsuario_id" bigint,
+    CONSTRAINT "Moto_pkey" PRIMARY KEY (id_moto),
+    CONSTRAINT moto_usuario FOREIGN KEY ("motoUsuario_id")
+        REFERENCES dlk_motos.usuario (id_usuario) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.moto
+    OWNER to postgres;
+
+-- Index: fki_moto_usuario
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_moto_usuario;
+
+CREATE INDEX IF NOT EXISTS fki_moto_usuario
+    ON dlk_motos.moto USING btree
+    (id_moto ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: dlk_motos.sede
+
+-- DROP TABLE IF EXISTS dlk_motos.sede;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.sede
+(
+    id_sede bigint NOT NULL,
+    nombre_sede character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    direccion_sede character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    region_sede character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    pais_sede character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    cp_sede bigint DEFAULT 11111,
+    CONSTRAINT "Sede_pkey" PRIMARY KEY (id_sede)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.sede
+    OWNER to postgres;
+
+-- Table: dlk_motos.club
+
+-- DROP TABLE IF EXISTS dlk_motos.club;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.club
+(
+    id_club bigint NOT NULL,
+    nombre_club character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    miembros_club bigint,
+    "sedeClub_id" bigint,
+    "eventosClub_id" bigint,
+    CONSTRAINT "Club_pkey" PRIMARY KEY (id_club),
+    CONSTRAINT sede FOREIGN KEY ("sedeClub_id")
+        REFERENCES dlk_motos.sede (id_sede) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.club
+    OWNER to postgres;
+-- Index: fki_clubfk
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_clubfk;
+
+CREATE INDEX IF NOT EXISTS fki_clubfk
+    ON dlk_motos.club USING btree
+    (id_club ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_eventoRegistro
+
+-- DROP INDEX IF EXISTS dlk_motos."fki_eventoRegistro";
+
+CREATE INDEX IF NOT EXISTS "fki_eventoRegistro"
+    ON dlk_motos.club USING btree
+    ("eventosClub_id" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_sede
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_sede;
+
+CREATE INDEX IF NOT EXISTS fki_sede
+    ON dlk_motos.club USING btree
+    ("sedeClub_id" ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_sedeClub_id
+
+-- DROP INDEX IF EXISTS dlk_motos."fki_sedeClub_id";
+
+CREATE INDEX IF NOT EXISTS "fki_sedeClub_id"
+    ON dlk_motos.club USING btree
+    (id_club ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: dlk_motos.solicitud_club
+
+-- DROP TABLE IF EXISTS dlk_motos.solicitud_club;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.solicitud_club
+(
+    usuario_id bigint,
+    club_id bigint,
+    id_solicitud bigint NOT NULL,
+    CONSTRAINT "Solicitud_Club_pkey" PRIMARY KEY (id_solicitud),
+    CONSTRAINT club FOREIGN KEY (club_id)
+        REFERENCES dlk_motos.club (id_club) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT usuario FOREIGN KEY (usuario_id)
+        REFERENCES dlk_motos.usuario (id_usuario) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.solicitud_club
+    OWNER to postgres;
+-- Index: fki_Usuario
+
+-- DROP INDEX IF EXISTS dlk_motos."fki_Usuario";
+
+CREATE INDEX IF NOT EXISTS "fki_Usuario"
+    ON dlk_motos.solicitud_club USING btree
+    (usuario_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_club
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_club;
+
+CREATE INDEX IF NOT EXISTS fki_club
+    ON dlk_motos.solicitud_club USING btree
+    (club_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_usuario
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_usuario;
+
+CREATE INDEX IF NOT EXISTS fki_usuario
+    ON dlk_motos.solicitud_club USING btree
+    (usuario_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: dlk_motos.registro
+
+-- DROP TABLE IF EXISTS dlk_motos.registro;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.registro
+(
+    usuario_id bigint,
+    club_id bigint,
+    "id_Registro" bigint NOT NULL,
+    CONSTRAINT "Registro_pkey" PRIMARY KEY ("id_Registro"),
+    CONSTRAINT club FOREIGN KEY (club_id)
+        REFERENCES dlk_motos.club (id_club) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID,
+    CONSTRAINT usuario FOREIGN KEY (usuario_id)
+        REFERENCES dlk_motos.usuario (id_usuario) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.registro
+    OWNER to postgres;
+-- Index: fki_s
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_s;
+
+CREATE INDEX IF NOT EXISTS fki_s
+    ON dlk_motos.registro USING btree
+    (usuario_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: dlk_motos.evento
+
+-- DROP TABLE IF EXISTS dlk_motos.evento;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.evento
+(
+    id_evento bigint NOT NULL,
+    estado_evento character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    "codigoEntrada_evento" character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    "fechaInicio_evento" timestamp with time zone,
+    "fechaFin_evento" timestamp with time zone,
+    registro_id bigint,
+    CONSTRAINT "Evento_pkey" PRIMARY KEY (id_evento),
+    CONSTRAINT registrofk FOREIGN KEY (registro_id)
+        REFERENCES dlk_motos.registro ("id_Registro") MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.evento
+    OWNER to postgres;
+-- Index: fki_evento
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_evento;
+
+CREATE INDEX IF NOT EXISTS fki_evento
+    ON dlk_motos.evento USING btree
+    (id_evento ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_evento_creador
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_evento_creador;
+
+CREATE INDEX IF NOT EXISTS fki_evento_creador
+    ON dlk_motos.evento USING btree
+    (registro_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+-- Index: fki_registrofk
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_registrofk;
+
+CREATE INDEX IF NOT EXISTS fki_registrofk
+    ON dlk_motos.evento USING btree
+    (registro_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: dlk_motos.ruta
+
+-- DROP TABLE IF EXISTS dlk_motos.ruta;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.ruta
+(
+    id_ruta bigint NOT NULL,
+    nombre_ruta character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    kilometro_ruta bigint DEFAULT 11111,
+    precio_ruta numeric DEFAULT 11111,
+    codigo_ruta character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    "esRutaPrivada" boolean,
+    evento_id bigint,
+    CONSTRAINT "Ruta_pkey" PRIMARY KEY (id_ruta),
+    CONSTRAINT eventofk FOREIGN KEY (evento_id)
+        REFERENCES dlk_motos.evento (id_evento) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.ruta
+    OWNER to postgres;
+-- Index: fki_eventofk
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_eventofk;
+
+CREATE INDEX IF NOT EXISTS fki_eventofk
+    ON dlk_motos.ruta USING btree
+    (evento_id ASC NULLS LAST)
+    TABLESPACE pg_default;
+
+-- Table: dlk_motos.ruta
+
+-- DROP TABLE IF EXISTS dlk_motos.ruta;
+
+CREATE TABLE IF NOT EXISTS dlk_motos.ruta
+(
+    id_ruta bigint NOT NULL,
+    nombre_ruta character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    kilometro_ruta bigint DEFAULT 11111,
+    precio_ruta numeric DEFAULT 11111,
+    codigo_ruta character varying COLLATE pg_catalog."default" DEFAULT 'aaaaa'::character varying,
+    "esRutaPrivada" boolean,
+    evento_id bigint,
+    CONSTRAINT "Ruta_pkey" PRIMARY KEY (id_ruta),
+    CONSTRAINT eventofk FOREIGN KEY (evento_id)
+        REFERENCES dlk_motos.evento (id_evento) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS dlk_motos.ruta
+    OWNER to postgres;
+-- Index: fki_eventofk
+
+-- DROP INDEX IF EXISTS dlk_motos.fki_eventofk;
+
+CREATE INDEX IF NOT EXISTS fki_eventofk
+    ON dlk_motos.ruta USING btree
+    (evento_id ASC NULLS LAST)
+    TABLESPACE pg_default;
