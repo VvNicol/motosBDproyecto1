@@ -44,6 +44,6 @@ public class ConsultaPostgresqlImplementacion implements ConsultaInterfaz {
             System.err.println("[ERROR-ConsultaPostgresqlImplementacion-consultaUsuario] Error generando o ejecutando la declaración SQL: " + e.getMessage());
         }
         
-        return Inicio.UsuarioLista;  // Retorna la lista estática
+        return Inicio.UsuarioLista;
     }
 }

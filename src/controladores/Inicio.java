@@ -1,16 +1,11 @@
 package controladores;
 
 import java.io.File;
-import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import dto.UsuarioDto;
-import servicios.ConexionInterfaz;
-import servicios.ConexionPostgresqlImplementacion;
-import servicios.ConsultaInterfaz;
-import servicios.ConsultaPostgresqlImplementacion;
 import servicios.FicheroImplementacion;
 import servicios.FicheroInterfaz;
 import servicios.MenuImplementacion;
@@ -28,8 +23,6 @@ public class Inicio {
 		String directorioFichero = "ficheros";
 		String fichero = directorioFichero + File.separator + fecha + " FicheroLog.txt";
 
-		ConexionInterfaz ci = new ConexionPostgresqlImplementacion();
-		ConsultaInterfaz cc = new ConsultaPostgresqlImplementacion();
 		MenuInterfaz mi = new MenuImplementacion();
 		FicheroInterfaz fi = new FicheroImplementacion();
 		UsuarioInterfaz ui = new UsuarioImplementacion();
@@ -39,19 +32,6 @@ public class Inicio {
 		String mensaje = "";
 
 		try {
-
-			// Generar la conexión a la base de datos
-			Connection conexion = ci.GenerarConexion();
-
-			// Verificar si la conexión no es null
-			if (conexion != null) {
-
-				UsuarioLista = cc.consultaUsuario(conexion);
-
-				System.out.println("Conexion");
-			} else {
-				System.out.println("No se pudo establecer la conexión.");
-			}
 
 			do {
 
@@ -66,10 +46,10 @@ public class Inicio {
 					System.out.println(mensaje);
 					esCerrado = true;
 					break;
-				case 1:
-					ui.DarAltaUsuario();
+				case 1:					
 					break;
 				case 2:
+					ui.DarAltaUsuario();
 					break;
 				case 3:
 					break;
