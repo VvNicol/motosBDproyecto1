@@ -18,7 +18,7 @@ public interface ConsultaInterfaz {
 	 * Query de todos los usuarios
 	 * @author nrojlla 101024
 	 * @param conexion
-	 * @return
+	 * @return Connection
 	 */
  	public List<UsuarioDto> consultaUsuario(Connection conexion);
 
