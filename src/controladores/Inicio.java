@@ -49,6 +49,9 @@ public class Inicio {
 				case 1:					
 					break;
 				case 2:
+					mensaje = "Dar alta usuario";
+					fi.EscribirFichero(mensaje, fichero);
+					System.out.println(mensaje);
 					ui.DarAltaUsuario();
 					break;
 				case 3:
