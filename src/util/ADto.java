@@ -28,6 +28,7 @@ public class ADto {
 					resultadoConsulta.getLong("id_usuario"),
 					resultadoConsulta.getString("nombre_usuario"),
 					resultadoConsulta.getString("apellidos_usuario"),
+					resultadoConsulta.getString("dni_usuario"),
 					resultadoConsulta.getString("correo_usuario"),
 					resultadoConsulta.getString("foto_usuario"),
 					resultadoConsulta.getString("contra_usuario"),

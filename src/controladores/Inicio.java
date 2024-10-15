@@ -61,6 +61,10 @@ public class Inicio {
 				case 5:
 					break;
 				case 6:
+					mensaje = "Modificar datos de usuario";
+					fi.EscribirFichero(mensaje, fichero);
+					System.out.println(mensaje);
+					ui.ModificarDtoUsuario();
 					break;
 
 				default:

@@ -15,4 +15,11 @@ public interface MenuInterfaz {
 	 */
 	byte MenuPrincipal() throws IOException;
 
+	/**
+	 * Vista de menu para modificar datos
+	 * @return
+	 * @throws IOException 
+	 */
+	byte MenuDatos() throws IOException;
+
 }

@@ -13,6 +13,7 @@ public class UsuarioDto {
 	Long id;
 	String nombre = "aaaaa";
 	String apellidos = "aaaaa";
+	String dni = "aaaaa";
 	String correo = "aaaaa";
 	String foto = "aaaaa";
 	String contrasenia = "aaaaa";
@@ -27,18 +28,20 @@ public class UsuarioDto {
 	 * @param id
 	 * @param nombre
 	 * @param apellidos
+	 * @param dni
 	 * @param correo
 	 * @param foto
 	 * @param contrasenia
 	 * @param telefono
 	 * @param esClub
 	 */
-	public UsuarioDto(Long id, String nombre, String apellidos, String correo, String foto, String contrasenia,
+	public UsuarioDto(Long id, String nombre, String apellidos, String dni, String correo, String foto, String contrasenia,
 			int telefono, boolean esClub) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellidos = apellidos;
+		this.dni = dni;
 		this.correo = correo;
 		this.foto = foto;
 		this.telefono = telefono;
@@ -46,6 +49,19 @@ public class UsuarioDto {
 		this.esClub = esClub;
 	}
 
+	/**
+	 * @return the dni
+	 */
+	public String getDni() {
+		return dni;
+	}
+
+	/**
+	 * @param dni the dni to set
+	 */
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
 	/**
 	 * @return the id
 	 */

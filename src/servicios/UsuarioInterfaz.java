@@ -18,4 +18,11 @@ public interface UsuarioInterfaz {
 	 */
 	void DarAltaUsuario() throws IOException;
 
+	/**
+	 * Modificar los datos de usuario
+	 * @author nrojlla 151024
+	 * @throws IOException 
+	 */
+	void ModificarDtoUsuario() throws IOException;
+
 }
