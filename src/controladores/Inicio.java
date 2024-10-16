@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dto.UsuarioDto;
+import servicios.ClubImplementacion;
+import servicios.ClubInterfaz;
 import servicios.FicheroImplementacion;
 import servicios.FicheroInterfaz;
 import servicios.MenuImplementacion;
@@ -26,6 +28,7 @@ public class Inicio {
 		MenuInterfaz mi = new MenuImplementacion();
 		FicheroInterfaz fi = new FicheroImplementacion();
 		UsuarioInterfaz ui = new UsuarioImplementacion();
+		ClubInterfaz ci = new ClubImplementacion();
 
 		byte opcion;
 		boolean esCerrado = false;
@@ -46,7 +49,10 @@ public class Inicio {
 					System.out.println(mensaje);
 					esCerrado = true;
 					break;
-				case 1:					
+				case 1:		
+					
+					ci.DarAltaClub();
+					
 					break;
 				case 2:
 					mensaje = "Dar alta usuario";

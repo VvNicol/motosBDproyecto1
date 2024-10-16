@@ -7,3 +7,10 @@ Menu principal
 Modificar datos de usuario
 Menu principal
 Menu cerrado
+Menu principal
+Dar alta usuario
+Menu principal
+Menu principal
+Dar alta usuario
+Menu principal
+Menu cerrado

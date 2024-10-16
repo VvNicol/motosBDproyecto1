@@ -51,6 +51,15 @@ public class Util {
 		return nuevoId; // Devuelve el nuevo ID, que puede ser null
 	}
 
+	/**
+	 * 
+	 * @param conexion
+	 * @return
+	 */
+	public static long GenerarIdClub(Connection conexion) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	
 	/**
@@ -95,4 +104,6 @@ public class Util {
 
 	}
 
+
+	
 }
