@@ -113,7 +113,6 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 						case 1:
 							System.out.println("Ingrese su nuevo nombre");
 							String nuevoNombre = sc.nextLine();
-							u.setNombre(nuevoNombre); // Actualizar en la lista de memoria pero no actualiza en la BD
 
 							// Definir la consulta SQL para actualizar el nombre en la base de datos.
 							// El símbolo "?" actúa como un parámetro que será reemplazado por valores
@@ -144,13 +143,15 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								System.out.println(
 										"Error al actualizar el nombre en la base de datos: " + e.getMessage());
 							}
+							u.setNombre(nuevoNombre); // Actualizar en la lista de memoria pero no actualiza en la BD
+
 							break;
 
 						case 2:
 
 							System.out.println("Ingrese su nuevo apellido");
 							String nuevoApellido = sc.nextLine();
-							u.setApellidos(nuevoApellido);
+
 							String updateQueryApellido = "UPDATE \"dlk_motos\".usuario SET apellidos_usuario = ? WHERE dni_usuario = ?";
 
 							try (PreparedStatement ps = conexion.prepareStatement(updateQueryApellido)) {
@@ -165,16 +166,16 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								}
 							} catch (SQLException e) {
 								System.out.println(
-										"Error al actualizar el nombre en la base de datos: " + e.getMessage());
+										"Error al actualizar el apellido en la base de datos: " + e.getMessage());
 							}
-
+							u.setApellidos(nuevoApellido);// lista memoria
 							break;
 
 						case 3:
 
 							System.out.println("Ingrese su nuevo dni");
 							String nuevoDni = sc.nextLine();
-							u.setNombre(nuevoDni);
+
 							String updateQueryDni = "UPDATE \"dlk_motos\".usuario SET dni_usuario = ? WHERE dni_usuario = ?";
 							try (PreparedStatement ps = conexion.prepareStatement(updateQueryDni)) {
 								ps.setString(1, nuevoDni);
@@ -187,12 +188,12 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 									System.out.println("No se ha podido modificar el dni.");
 								}
 							} catch (SQLException e) {
-								System.out.println(
-										"Error al actualizar el nombre en la base de datos: " + e.getMessage());
+								System.out.println("Error al actualizar el dni en la base de datos: " + e.getMessage());
 							}
 
 							System.out.println("Para seguir modificando ingrese de nuevo con su dni");
-							esCerrado = true;
+							u.setDni(nuevoDni);// lista memoria
+							esCerrado = true;// expulsar para poder seguir modificando
 
 							break;
 
@@ -200,7 +201,7 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 
 							System.out.println("Ingrese su nuevo correo");
 							String nuevoCorreo = sc.nextLine();
-							u.setNombre(nuevoCorreo);
+							
 							String updateQueryCorreo = "UPDATE \"dlk_motos\".usuario SET correo_usuario = ? WHERE dni_usuario = ?";
 
 							try (PreparedStatement ps = conexion.prepareStatement(updateQueryCorreo)) {
@@ -215,15 +216,16 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								}
 							} catch (SQLException e) {
 								System.out.println(
-										"Error al actualizar el nombre en la base de datos: " + e.getMessage());
+										"Error al actualizar el correo en la base de datos: " + e.getMessage());
 							}
+							u.setCorreo(nuevoCorreo);// lista memoria
 
 							break;
 
 						case 5:
 							System.out.println("Ingrese el nombre de la foto");
 							String nuevaFoto = sc.nextLine();
-							u.setNombre(nuevaFoto);
+							
 							String updateQueryFoto = "UPDATE \"dlk_motos\".usuario SET foto_usuario = ? WHERE dni_usuario = ?";
 
 							try (PreparedStatement ps = conexion.prepareStatement(updateQueryFoto)) {
@@ -237,9 +239,61 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 									System.out.println("No se ha podido modificar el Foto.");
 								}
 							} catch (SQLException e) {
-								System.out.println(
-										"Error al actualizar el nombre en la base de datos: " + e.getMessage());
+								System.out
+										.println("Error al actualizar la Foto en la base de datos: " + e.getMessage());
 							}
+							u.setFoto(nuevaFoto);// lista memoria
+
+							break;
+
+						case 6:
+
+							System.out.println("Ingrese su nueva contraseña");
+							String nuevaPwd = sc.nextLine();
+
+							String updateQueryPwd = "UPDATE \"dlk_motos\".usuario SET contra_usuario = ? WHERE dni_usuario = ?";
+
+							try (PreparedStatement ps = conexion.prepareStatement(updateQueryPwd)) {
+								ps.setString(1, nuevaPwd);
+								ps.setString(2, dni);
+
+								int filasActualizadas = ps.executeUpdate();
+								if (filasActualizadas > 0) {
+									System.out.println("Contraseña modificado con éxito.");
+								} else {
+									System.out.println("No se ha podido modificar el Contraseña.");
+								}
+							} catch (SQLException e) {
+								System.out.println(
+										"Error al actualizar la contraseña en la base de datos: " + e.getMessage());
+							}
+
+							u.setContrasenia(nuevaPwd);// lista memoria
+							break;
+
+						case 7:
+
+							System.out.println("Ingrese su nuevo telefono");
+							int nuevoTel = sc.nextInt();
+
+							String updateQueryTel = "UPDATE \"dlk_motos\".usuario SET tel_usuario = ? WHERE dni_usuario = ?";
+
+							try (PreparedStatement ps = conexion.prepareStatement(updateQueryTel)) {
+								ps.setInt(1, nuevoTel);
+								ps.setString(2, dni);
+
+								int filasActualizadas = ps.executeUpdate();
+								if (filasActualizadas > 0) {
+									System.out.println("Telefono modificado con éxito.");
+								} else {
+									System.out.println("No se ha podido modificar el numero telefonico.");
+								}
+							} catch (SQLException e) {
+								System.out.println("Error al actualizar el numero telefonico en la base de datos: "
+										+ e.getMessage());
+							}
+
+							u.setTelefono(nuevoTel);// lista memoria
 
 							break;
 
