@@ -112,70 +112,77 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 		MenuInterfaz mi = new MenuImplementacion();
 		ConsultaInterfaz cz = new ConsultaPostgresqlImplementacion();
 
-		// try catch para la conexion
+		// Try-catch para la conexión
 		try (Connection conexion = ci.GenerarConexion()) {
-			if (conexion != null) {// verificar que no sea la null
-				System.out.println("Ingrese su dni:");
+			if (conexion != null) { // Verificar que no sea null
+				System.out.println("Ingrese su DNI:");
 				String dni = sc.nextLine();
 
-				UsuarioDto u = util.Util.BuscarUsuarioPorDni(dni, conexion); // Buscar por la BD dni
+				// Consulta para buscar usuario por DNI
+				String buscarUsuarioPorDni = "SELECT * FROM \"dlk_motos\".usuario WHERE dni_usuario = ?";
 
-				if (u != null) { // Verifica que no sea null la busqueda del dni
-					byte opcion;
-					boolean esCerrado = false;
+				try (PreparedStatement ps = conexion.prepareStatement(buscarUsuarioPorDni)) {
+					ps.setString(1, dni);
+					var resultSet = ps.executeQuery();
 
-					do {
-						opcion = mi.MenuDatos();// menu
+					if (resultSet.next()) { // Si se encuentra el usuario
+						boolean esCerrado = false;
 
-						switch (opcion) {
-						case 0:
-							System.out.println("Volviste");
-							esCerrado = true;
-							break;
-						case 1:
-							System.out.println("Ingrese su nuevo nombre");
-							String nuevoNombre = sc.nextLine();
-							cz.ModificarNombreUsuario(nuevoNombre, dni, conexion);
-							break;
-						case 2:
-							System.out.println("Ingrese su nuevo apellido");
-							String nuevoApellido = sc.nextLine();
-							cz.ModificarApellidosUsuario(nuevoApellido, dni, conexion);
-							break;
-						case 3:
-							System.out.println("Ingrese su nuevo dni");
-							String nuevoDni = sc.nextLine();
-							cz.ModificarDniUsuario(nuevoDni, dni, conexion);
-							System.out.println("Para seguir modificando ingrese de nuevo con su dni");
-							esCerrado = true;// expulsar para poder seguir modificando
-							break;
-						case 4:
-							System.out.println("Ingrese su nuevo correo");
-							String nuevoCorreo = sc.nextLine();
-							cz.ModificarCorreoUsuario(nuevoCorreo, dni, conexion);
-							break;
-						case 5:
-							System.out.println("Ingrese el nombre de la foto");
-							String nuevaFoto = sc.nextLine();
-							cz.ModificarFotoUsuario(nuevaFoto, dni, conexion);
-							break;
-						case 6:
-							System.out.println("Ingrese su nueva contraseña");
-							String nuevaPwd = sc.nextLine();
-							cz.ModificarPwdUsuario(nuevaPwd, dni, conexion);
-							break;
-						case 7:
-							System.out.println("Ingrese su nuevo telefono");
-							int nuevoTel = sc.nextInt();
-							cz.ModificarTelefonoUsuario(nuevoTel, dni, conexion);
-							break;
-						default:
-							System.out.println("Error, opción no válida: " + opcion);
-							break;
+						// Bucle de modificación de datos
+						while (!esCerrado) {
+							byte opcion = mi.MenuDatos(); // Muestra el menú
+							switch (opcion) {
+							case 0:
+								System.out.println("Volviste");
+								esCerrado = true;
+								break;
+							case 1:
+								System.out.println("Ingrese su nuevo nombre:");
+								String nuevoNombre = sc.nextLine();
+								cz.ModificarNombreUsuario(nuevoNombre, dni, conexion);
+								break;
+							case 2:
+								System.out.println("Ingrese su nuevo apellido:");
+								String nuevoApellido = sc.nextLine();
+								cz.ModificarApellidosUsuario(nuevoApellido, dni, conexion);
+								break;
+							case 3:
+								System.out.println("Ingrese su nuevo DNI:");
+								String nuevoDni = sc.nextLine();
+								cz.ModificarDniUsuario(nuevoDni, dni, conexion);
+								System.out.println("Para seguir modificando, ingrese de nuevo con su nuevo DNI.");
+								esCerrado = true; // Terminar para volver a loguear
+								break;
+							case 4:
+								System.out.println("Ingrese su nuevo correo:");
+								String nuevoCorreo = sc.nextLine();
+								cz.ModificarCorreoUsuario(nuevoCorreo, dni, conexion);
+								break;
+							case 5:
+								System.out.println("Ingrese el nombre de la nueva foto:");
+								String nuevaFoto = sc.nextLine();
+								cz.ModificarFotoUsuario(nuevaFoto, dni, conexion);
+								break;
+							case 6:
+								System.out.println("Ingrese su nueva contraseña:");
+								String nuevaPwd = sc.nextLine();
+								cz.ModificarPwdUsuario(nuevaPwd, dni, conexion);
+								break;
+							case 7:
+								System.out.println("Ingrese su nuevo teléfono:");
+								int nuevoTel = sc.nextInt();
+								sc.nextLine(); // Consumir el salto de línea
+								cz.ModificarTelefonoUsuario(nuevoTel, dni, conexion);
+								break;
+							default:
+								System.out.println("Error, opción no válida: " + opcion);
+							}
 						}
-					} while (!esCerrado);
-				} else {
-					System.out.println("No se encontró un usuario con el DNI ingresado.");
+					} else {
+						System.out.println("No se encontró un usuario con el DNI ingresado.");
+					}
+				} catch (SQLException e) {
+					System.out.println("Error al buscar el usuario: " + e.getMessage());
 				}
 			} else {
 				System.out.println("No se pudo realizar la conexión.");
