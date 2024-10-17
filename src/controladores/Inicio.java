@@ -74,7 +74,10 @@ public class Inicio {
 					ui.BajaUsuario();
 					break;
 				case 5:
-					
+					mensaje = "Modificar club";
+					fi.EscribirFichero(mensaje, fichero);
+					System.out.println(mensaje);
+					ci.ModificarClub();
 					
 					break;
 				case 6:

@@ -28,4 +28,12 @@ public interface ClubInterfaz {
 	 */
 	void BajaClub() throws IOException;
 
+	/**
+	 * Modificar club
+	 * 
+	 * @author nrojlla 171024
+	 * @throws IOException 
+	 */
+	void ModificarClub() throws IOException;
+
 }

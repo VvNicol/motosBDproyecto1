@@ -204,4 +204,26 @@ public class ConsultaPostgresqlImplementacion implements ConsultaInterfaz {
 			System.out.println("Error al actualizar el numero telefonico en la base de datos: " + e.getMessage());
 		}
 	}
+
+	@Override
+	public void ModificarNombreClub(String nuevoNombre, String nombre, Connection conexion) {
+
+		String updateQuery = "UPDATE \"dlk_motos\".club SET nombre_club = ? WHERE nombre_club = ?";
+
+		try (PreparedStatement ps = conexion.prepareStatement(updateQuery)) {
+			ps.setString(1, nuevoNombre);
+			ps.setString(2, nombre);
+
+			int filasActualizadas = ps.executeUpdate();
+
+			if (filasActualizadas > 0) {
+				System.out.println("Nombre modificado con éxito.");
+			} else {
+				System.out.println("No se ha podido modificar el nombre.");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el nombre en la base de datos: " + e.getMessage());
+		}
+
+	}
 }

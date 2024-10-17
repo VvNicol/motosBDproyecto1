@@ -25,7 +25,7 @@ public interface ConsultaInterfaz {
 	public List<UsuarioDto> consultaUsuario(Connection conexion);
 
 	/**
-	 * Modifica el campo nombre
+	 * Modifica el campo nombre del usuario
 	 * 
 	 * @author nrojlla 171024
 	 * @param String
@@ -35,7 +35,7 @@ public interface ConsultaInterfaz {
 	public void ModificarNombreUsuario(String nuevoNombre, String dni, Connection conexion);
 
 	/**
-	 * Modifica el campo apellido
+	 * Modifica el campo apellido del usuario
 	 * 
 	 * @author nrojlla 171024
 	 * @param String
@@ -45,7 +45,7 @@ public interface ConsultaInterfaz {
 	public void ModificarApellidosUsuario(String nuevoApellido, String dni, Connection conexion);
 	
 	/**
-	 * Modifica el campo dni
+	 * Modifica el campo dni del usuario
 	 * 
 	 * @author nrojlla 171024
 	 * @param nuevoDni
@@ -57,7 +57,7 @@ public interface ConsultaInterfaz {
 	/**
 	 * Modifica el campo correo
 	 * 
-	 * @author nrojlla 171024
+	 * @author nrojlla 171024 del usuario
 	 * @param nuevoCorreo
 	 * @param dni
 	 * @param conexion
@@ -65,7 +65,7 @@ public interface ConsultaInterfaz {
 	public void ModificarCorreoUsuario(String nuevoCorreo, String dni, Connection conexion);
 	
 	/**
-	 * Modifica el campo Foto
+	 * Modifica el campo Foto del usuario
 	 * 
 	 * @author nrojlla 171024
 	 * @param nuevaFoto
@@ -75,7 +75,7 @@ public interface ConsultaInterfaz {
 	public void ModificarFotoUsuario(String nuevaFoto, String dni, Connection conexion);
 	
 	/**
-	 * Modifica la contraseña
+	 * Modifica la contraseña del usuario
 	 * 
 	 * @author nrojlla 171024
 	 * @param nuevaPwd
@@ -85,7 +85,7 @@ public interface ConsultaInterfaz {
 	public void ModificarPwdUsuario(String nuevaPwd, String dni, Connection conexion);
 	
 	/**
-	 * Modifica el numero telefonico
+	 * Modifica el numero telefonico del usuario
 	 * 
 	 * @author nrojlla 171024
 	 * @param nuevoTel
@@ -93,5 +93,14 @@ public interface ConsultaInterfaz {
 	 * @param conexion
 	 */
 	public void ModificarTelefonoUsuario(int nuevoTel, String dni, Connection conexion);
+	
+	/**
+	 * Modifica el nombre del club
+	 * 
+	 * @param nuevoNombre
+	 * @param nombre
+	 * @param conexion
+	 */
+	public void ModificarNombreClub(String nuevoNombre, String nombre, Connection conexion);
 
 }

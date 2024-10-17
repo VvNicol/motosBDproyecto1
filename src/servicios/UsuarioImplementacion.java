@@ -127,8 +127,8 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 						boolean esCerrado = false;
 
 						// Bucle de modificación de datos
-						while (!esCerrado) {
-							byte opcion = mi.MenuDatos(); // Muestra el menú
+						do {
+							byte opcion = mi.MenuModificarUsuario(); // Muestra el menú
 							switch (opcion) {
 							case 0:
 								System.out.println("Volviste");
@@ -175,7 +175,7 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 							default:
 								System.out.println("Error, opción no válida: " + opcion);
 							}
-						}
+						} while (!esCerrado);
 					} else {
 						System.out.println("No se encontró un usuario con el DNI ingresado.");
 					}

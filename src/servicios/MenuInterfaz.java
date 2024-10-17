@@ -20,6 +20,14 @@ public interface MenuInterfaz {
 	 * @return
 	 * @throws IOException 
 	 */
-	byte MenuDatos() throws IOException;
+	byte MenuModificarUsuario() throws IOException;
+	
+	/**
+	 * Vista de menu para modificar datos
+	 * 
+	 * @return byte
+	 * @throws IOException
+	 */
+	byte MenuModificarClub()throws IOException ;
 
 }

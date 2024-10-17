@@ -65,7 +65,7 @@ public class ClubImplementacion implements ClubInterfaz {
 	}
 
 	public void BajaClub() throws IOException {
-		
+
 		try (Connection conexion = ci.GenerarConexion()) {
 
 			if (conexion != null) {
@@ -90,6 +90,73 @@ public class ClubImplementacion implements ClubInterfaz {
 				System.out.println("No se pudo realizar la conexión.");
 			}
 
+		} catch (SQLException e) {
+			System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
+		}
+	}
+
+	@Override
+	public void ModificarClub() throws IOException {
+		MenuInterfaz mi = new MenuImplementacion();
+		ConsultaInterfaz cz = new ConsultaPostgresqlImplementacion();
+
+		try (Connection conexion = ci.GenerarConexion()) {
+
+			if (conexion != null) {
+
+				System.out.println("Ingrese nombre del club:");
+				String nombre = sc.nextLine();
+
+				String buscarClubPorNombre = "SELECT * FROM \"dlk_motos\".club WHERE nombre_club = ?";
+
+				try (PreparedStatement ps = conexion.prepareStatement(buscarClubPorNombre)) {
+					ps.setString(1, nombre);
+					var resultSet = ps.executeQuery();
+
+					if (resultSet.next()) {
+
+						boolean esCerrado = false;
+						do {
+
+							byte opcion = mi.MenuModificarClub();
+
+							switch (opcion) {
+							case 0:
+								System.out.println("Volviste");
+								esCerrado = true;
+								break;
+							case 1:
+								System.out.println("Ingrese su nuevo nombre:");
+								String nuevoNombre = sc.nextLine();
+								
+								cz.ModificarNombreClub(nuevoNombre,nombre,conexion);
+								
+								break;
+							case 2:
+								
+								break;
+							case 3:
+								
+								break;
+							case 4:
+								
+								break;
+							default:
+								System.out.println("Error, opción no válida: " + opcion);
+								break;
+							}
+
+						} while (!esCerrado);
+
+					} else {
+						System.out.println("No se encontró el nombre ingresado.");
+					}
+				} catch (SQLException e) {
+					System.out.println("Error al buscar el nombre del club: " + e.getMessage());
+				}
+			} else {
+				System.out.println("No se pudo realizar la conexión.");
+			}
 		} catch (SQLException e) {
 			System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
 		}
