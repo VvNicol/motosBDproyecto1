@@ -1,13 +1,9 @@
 package util;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import dto.ClubDto;
-import dto.UsuarioDto;
 
 /**
  * Clase Util con métodos útiles para la aplicación.
@@ -80,65 +76,4 @@ public class Util {
 		return nuevoId;
 	}
 
-	/**
-	 * Busca un usuario en la base de datos por su dni.
-	 *
-	 * @param dni      El DNI del usuario que se busca.
-	 * @param conexion La conexión a la base de datos.
-	 * @return Un objeto UsuarioDto que representa el UsuarioDto encontrado.
-	 * @throws SQLException Si ocurre un error al acceder a la base de datos, o null
-	 *                      si no se encuentra.
-	 */
-	public static UsuarioDto BuscarUsuarioPorDni(String dni, Connection conexion) throws SQLException {
-		UsuarioDto usuario = null;
-
-		// Consulta SQL para buscar el usuario por DNI
-		String selectQuery = "SELECT * FROM \"dlk_motos\".usuario WHERE dni_usuario = ?";
-
-		try (PreparedStatement ps = conexion.prepareStatement(selectQuery)) {
-			ps.setString(1, dni); // Asignar el DNI a la consulta
-
-			// Ejecutar la consulta
-			var resultSet = ps.executeQuery();
-
-			// Verificar si se encontró un resultado y asignar los datos encontrado en obj
-			// usuario
-			if (resultSet.next()) {
-				usuario = new UsuarioDto();
-
-			}
-		} catch (SQLException e) {
-			System.out.println("Error al buscar usuario por DNI: " + e.getMessage());
-		}
-
-		return usuario;
-
-	}
-
-	/**
-	 *
-	 * @param nombre   El nombre del club a buscar.
-	 * @param conexion La conexión a la base de datos.
-	 * @return Un objeto ClubDto que representa el club encontrado, o null si no se
-	 *         encuentra.
-	 */
-	public static ClubDto BuscarClubPorNombre(String nombre, Connection conexion) {
-		ClubDto club = null;
-
-		String selectQuery = "SELECT * FROM \"dlk_motos\".club WHERE nombre_club = ?";
-
-		try (PreparedStatement ps = conexion.prepareStatement(selectQuery)) {
-			ps.setString(1, nombre);
-
-			var resultSet = ps.executeQuery();
-
-			if (resultSet.next()) {
-				club = new ClubDto();
-			}
-		} catch (SQLException e) {
-			System.out.println("Error al buscar club por nombre: " + e.getMessage());
-		}
-
-		return club;
-	}
 }

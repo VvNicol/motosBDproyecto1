@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import dto.UsuarioDto;
-
 /**
  * Logica de metodos de Usuario interfaz
  * 
