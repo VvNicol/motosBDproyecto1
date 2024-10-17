@@ -49,10 +49,11 @@ public class Inicio {
 					System.out.println(mensaje);
 					esCerrado = true;
 					break;
-				case 1:		
-					
+				case 1:
+					mensaje = "Dar alta club";
+					fi.EscribirFichero(mensaje, fichero);
+					System.out.println(mensaje);
 					ci.DarAltaClub();
-					
 					break;
 				case 2:
 					mensaje = "Dar alta usuario";
@@ -63,6 +64,10 @@ public class Inicio {
 				case 3:
 					break;
 				case 4:
+					mensaje = "Eliminar usuario";
+					fi.EscribirFichero(mensaje, fichero);
+					System.out.println(mensaje);
+					ui.BajaUsuario();
 					break;
 				case 5:
 					break;

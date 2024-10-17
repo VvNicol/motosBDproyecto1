@@ -73,6 +73,49 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 	}
 
 	@Override
+	public void BajaUsuario() {
+
+		try (Connection conexion = ci.GenerarConexion()) {
+
+			if (conexion != null) {
+
+				System.out.println("Ingrese su dni:");
+				String dni = sc.nextLine();
+
+				UsuarioDto u = util.Util.BuscarUsuarioPorDni(dni, conexion); // Buscar por la BD dni
+
+				if (u != null) {
+
+					String eliminarUsuario = " DELETE FROM \"dlk_motos\".usuario WHERE dni_usuario = ?";
+
+					try (PreparedStatement ps = conexion.prepareStatement(eliminarUsuario)) {
+						ps.setString(1, dni);
+
+						int filasEliminadas = ps.executeUpdate();
+						if (filasEliminadas > 0) {
+							System.out.println("Usuario eliminado con éxito.");
+						} else {
+							System.out.println("No se pudo eliminar el usuario.");
+						}
+					} catch (SQLException e) {
+						System.out.println("Error al eliminar usuario: " + e.getMessage());
+					}
+
+				} else {
+					System.out.println("No se encontró un usuario con el DNI ingresado.");
+				}
+
+			} else {
+				System.out.println("No se pudo realizar la conexión.");
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
+		}
+
+	}
+
+	@Override
 	public void ModificarDtoUsuario() throws IOException {
 		MenuInterfaz mi = new MenuImplementacion();
 
@@ -290,4 +333,5 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 			System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
 		}
 	}
+
 }
