@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import controladores.Inicio;
 import dto.UsuarioDto;
 
 /**
@@ -43,22 +42,9 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 			Long id = util.Util.GenerarIdUsuario(conexion); // Generar un ID único
 
 			if (id != null) {
-				// Crear un objeto UsuarioDto y setear los datos
-				UsuarioDto u = new UsuarioDto();
-				u.setNombre(nombre);
-				u.setApellidos(apellido);
-				u.setCorreo(correo);
-				u.setContrasenia(contrasenia);
-				u.setTelefono(tel);
-				u.setId(id);
-				u.setEsClub(false); // Establecer esClub a false
-				u.setDni(dni);
-
-				// Agregar el nuevo usuario a la lista
-				Inicio.UsuarioLista.add(u);
 
 				// Consulta SQL para insertar el nuevo usuario
-				String insertQuery = "INSERT INTO \"dlk_motos\".usuario (id_usuario, nombre_usuario, apellidos_usuario, dni_usuario ,correo_usuario, contra_usuario, tel_usuario, \"esClub\") VALUES (?, ?, ?, ?, ?, ?, ?)";
+				String insertQuery = "INSERT INTO \"dlk_motos\".usuario (id_usuario, nombre_usuario, apellidos_usuario, dni_usuario ,correo_usuario, contra_usuario, tel_usuario, \"esClub\") VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
 				// Ejecutar la inserción a la base de datos
 				try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
@@ -69,7 +55,7 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 					ps.setString(5, correo);
 					ps.setString(6, contrasenia);
 					ps.setInt(7, tel);
-					ps.setBoolean(8, u.isEsClub()); // Establecer el valor de esClub
+					ps.setBoolean(8, false);
 
 					// Ejecutar la inserción
 					ps.executeUpdate();
@@ -143,7 +129,6 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								System.out.println(
 										"Error al actualizar el nombre en la base de datos: " + e.getMessage());
 							}
-							u.setNombre(nuevoNombre); // Actualizar en la lista de memoria pero no actualiza en la BD
 
 							break;
 
@@ -168,7 +153,6 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								System.out.println(
 										"Error al actualizar el apellido en la base de datos: " + e.getMessage());
 							}
-							u.setApellidos(nuevoApellido);// lista memoria
 							break;
 
 						case 3:
@@ -192,7 +176,6 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 							}
 
 							System.out.println("Para seguir modificando ingrese de nuevo con su dni");
-							u.setDni(nuevoDni);// lista memoria
 							esCerrado = true;// expulsar para poder seguir modificando
 
 							break;
@@ -201,7 +184,7 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 
 							System.out.println("Ingrese su nuevo correo");
 							String nuevoCorreo = sc.nextLine();
-							
+
 							String updateQueryCorreo = "UPDATE \"dlk_motos\".usuario SET correo_usuario = ? WHERE dni_usuario = ?";
 
 							try (PreparedStatement ps = conexion.prepareStatement(updateQueryCorreo)) {
@@ -218,14 +201,13 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								System.out.println(
 										"Error al actualizar el correo en la base de datos: " + e.getMessage());
 							}
-							u.setCorreo(nuevoCorreo);// lista memoria
 
 							break;
 
 						case 5:
 							System.out.println("Ingrese el nombre de la foto");
 							String nuevaFoto = sc.nextLine();
-							
+
 							String updateQueryFoto = "UPDATE \"dlk_motos\".usuario SET foto_usuario = ? WHERE dni_usuario = ?";
 
 							try (PreparedStatement ps = conexion.prepareStatement(updateQueryFoto)) {
@@ -242,7 +224,6 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								System.out
 										.println("Error al actualizar la Foto en la base de datos: " + e.getMessage());
 							}
-							u.setFoto(nuevaFoto);// lista memoria
 
 							break;
 
@@ -268,7 +249,6 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 										"Error al actualizar la contraseña en la base de datos: " + e.getMessage());
 							}
 
-							u.setContrasenia(nuevaPwd);// lista memoria
 							break;
 
 						case 7:
@@ -292,8 +272,6 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 								System.out.println("Error al actualizar el numero telefonico en la base de datos: "
 										+ e.getMessage());
 							}
-
-							u.setTelefono(nuevoTel);// lista memoria
 
 							break;
 
