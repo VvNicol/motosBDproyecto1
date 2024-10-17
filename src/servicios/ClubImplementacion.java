@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
-import dto.ClubDto;
-
 /**
  * Logica de los metodos de club
  * 
@@ -66,46 +64,35 @@ public class ClubImplementacion implements ClubInterfaz {
 		}
 	}
 
-	@Override
-	public void BajaClub() throws IOException{
-
+	public void BajaClub() throws IOException {
+		
 		try (Connection conexion = ci.GenerarConexion()) {
 
 			if (conexion != null) {
 				System.out.println("Ingrese nombre del club:");
 				String nombre = sc.nextLine();
 
-				ClubDto c = util.Util.BuscarClubPorNombre(nombre, conexion);
-				if (c != null) {
+				String eliminarClub = "DELETE FROM \"dlk_motos\".club WHERE nombre_club = ?";
 
-					String eliminarClub = " DELETE FROM \"dlk_motos\".club WHERE nombre_club = ?";
+				try (PreparedStatement ps = conexion.prepareStatement(eliminarClub)) {
+					ps.setString(1, nombre);
 
-					try (PreparedStatement ps = conexion.prepareStatement(eliminarClub)) {
-						ps.setString(1, nombre);
-
-						int filasEliminadas = ps.executeUpdate();
-						if (filasEliminadas > 0) {
-							System.out.println("Usuario eliminado con éxito.");
-						} else {
-							System.out.println("No se pudo eliminar el usuario.");
-						}
-					} catch (SQLException e) {
-						System.out.println("Error al eliminar usuario: " + e.getMessage());
+					int filasEliminadas = ps.executeUpdate();
+					if (filasEliminadas > 0) {
+						System.out.println("Club eliminado con éxito.");
+					} else {
+						System.out.println("No se encontró el club.");
 					}
-
-				} else {
-					System.out.println("No se encontró el nombre del club");
+				} catch (SQLException e) {
+					System.out.println("Error al eliminar el club: " + e.getMessage());
 				}
-
 			} else {
 				System.out.println("No se pudo realizar la conexión.");
-
 			}
 
 		} catch (SQLException e) {
 			System.out.println("Error en la conexión a la base de datos: " + e.getMessage());
 		}
-
 	}
 
 }

@@ -82,31 +82,23 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 				System.out.println("Ingrese su dni:");
 				String dni = sc.nextLine();
 
-				UsuarioDto u = util.Util.BuscarUsuarioPorDni(dni, conexion); // Buscar por la BD dni
+				String eliminarUsuario = " DELETE FROM \"dlk_motos\".usuario WHERE dni_usuario = ?";
 
-				if (u != null) {
+				try (PreparedStatement ps = conexion.prepareStatement(eliminarUsuario)) {
+					ps.setString(1, dni);
 
-					String eliminarUsuario = " DELETE FROM \"dlk_motos\".usuario WHERE dni_usuario = ?";
-
-					try (PreparedStatement ps = conexion.prepareStatement(eliminarUsuario)) {
-						ps.setString(1, dni);
-
-						int filasEliminadas = ps.executeUpdate();
-						if (filasEliminadas > 0) {
-							System.out.println("Usuario eliminado con éxito.");
-						} else {
-							System.out.println("No se pudo eliminar el usuario.");
-						}
-					} catch (SQLException e) {
-						System.out.println("Error al eliminar usuario: " + e.getMessage());
+					int filasEliminadas = ps.executeUpdate();
+					if (filasEliminadas > 0) {
+						System.out.println("Usuario eliminado con éxito.");
+					} else {
+						System.out.println("No se pudo eliminar el usuario.");
 					}
-
-				} else {
-					System.out.println("No se encontró un usuario con el DNI ingresado.");
+				} catch (SQLException e) {
+					System.out.println("Error al eliminar usuario: " + e.getMessage());
 				}
 
 			} else {
-				System.out.println("No se pudo realizar la conexión.");
+				System.out.println("No se encontró un usuario con el DNI ingresado.");
 			}
 
 		} catch (SQLException e) {

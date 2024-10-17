@@ -74,6 +74,8 @@ public class Inicio {
 					ui.BajaUsuario();
 					break;
 				case 5:
+					
+					
 					break;
 				case 6:
 					mensaje = "Modificar datos de usuario";
