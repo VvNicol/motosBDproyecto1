@@ -73,7 +73,7 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 	}
 
 	@Override
-	public void BajaUsuario() {
+	public void BajaUsuario() throws IOException {
 
 		try (Connection conexion = ci.GenerarConexion()) {
 

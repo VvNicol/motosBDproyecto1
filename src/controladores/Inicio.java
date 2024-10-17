@@ -62,6 +62,10 @@ public class Inicio {
 					ui.DarAltaUsuario();
 					break;
 				case 3:
+					mensaje = "Eliminar club";
+					fi.EscribirFichero(mensaje, fichero);
+					System.out.println(mensaje);
+					ci.BajaClub();
 					break;
 				case 4:
 					mensaje = "Eliminar usuario";

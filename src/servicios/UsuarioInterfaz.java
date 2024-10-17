@@ -32,7 +32,8 @@ public interface UsuarioInterfaz {
 	 * Eliminar usuario
 	 * 
 	 * @author nrojlla 171024
+	 * @throws IOException 
 	 */
-	void BajaUsuario();
+	void BajaUsuario() throws IOException;
 
 }

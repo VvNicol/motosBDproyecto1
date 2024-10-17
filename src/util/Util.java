@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import dto.ClubDto;
 import dto.UsuarioDto;
 
 /**
@@ -80,15 +81,12 @@ public class Util {
 	}
 
 	/**
-	 * Busca un usuario por su DNI utilizando una conexión a la base de datos. Si se
-	 * encuentra un usuario con el DNI proporcionado, se devuelve un objeto
-	 * UsuarioDto. Si no se encuentra, se devuelve null.
+	 *  Busca un usuario en la base de datos por su dni.
 	 *
 	 * @param dni      El DNI del usuario que se busca.
 	 * @param conexion La conexión a la base de datos.
-	 * @return Un objeto UsuarioDto si se encuentra el usuario, o null si no se
-	 *         encuentra.
-	 * @throws SQLException Si ocurre un error al acceder a la base de datos.
+	 * @return Un objeto UsuarioDto que representa el UsuarioDto encontrado.
+	 * @throws SQLException Si ocurre un error al acceder a la base de datos, o null si no se encuentra.
 	 */
 	public static UsuarioDto BuscarUsuarioPorDni(String dni, Connection conexion) throws SQLException {
 		UsuarioDto usuario = null;
@@ -106,14 +104,7 @@ public class Util {
 			// usuario
 			if (resultSet.next()) {
 				usuario = new UsuarioDto();
-				usuario.setId(resultSet.getLong("id_usuario"));
-				usuario.setNombre(resultSet.getString("nombre_usuario"));
-				usuario.setApellidos(resultSet.getString("apellidos_usuario"));
-				usuario.setCorreo(resultSet.getString("correo_usuario"));
-				usuario.setContrasenia(resultSet.getString("contra_usuario"));
-				usuario.setTelefono(resultSet.getInt("tel_usuario"));
-				usuario.setDni(resultSet.getString("dni_usuario"));
-				usuario.setEsClub(resultSet.getBoolean("esClub"));
+			
 			}
 		} catch (SQLException e) {
 			System.out.println("Error al buscar usuario por DNI: " + e.getMessage());
@@ -123,4 +114,30 @@ public class Util {
 
 	}
 
+	/**
+	 *
+	 *
+	 * @param nombre   El nombre del club a buscar.
+	 * @param conexion La conexión a la base de datos.
+	 * @return Un objeto ClubDto que representa el club encontrado, o null si no se encuentra.
+	 */
+	public static ClubDto BuscarClubPorNombre(String nombre, Connection conexion) {
+		ClubDto club = null;
+
+		String selectQuery = "SELECT * FROM \"dlk_motos\".club WHERE nombre_club = ?";
+
+		try (PreparedStatement ps = conexion.prepareStatement(selectQuery)) {
+			ps.setString(1, nombre);
+
+			var resultSet = ps.executeQuery();
+
+			if (resultSet.next()) {
+				club = new ClubDto();
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al buscar club por nombre: " + e.getMessage());
+		}
+
+		return club;
+	}
 }

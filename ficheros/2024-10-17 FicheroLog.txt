@@ -22,3 +22,36 @@ Menu principal
 Eliminar usuario
 Menu principal
 Menu cerrado
+Menu principal
+Dar alta usuario
+Menu principal
+Modificar datos de usuario
+Menu principal
+Menu cerrado
+Menu principal
+Modificar datos de usuario
+Menu principal
+Menu principal
+Modificar datos de usuario
+Menu principal
+Menu principal
+Eliminar usuario
+Menu principal
+Ocurrió un error: null
+Menu principal
+Menu principal
+Eliminar usuario
+Menu principal
+Menu principal
+Eliminar usuario
+Menu principal
+Menu principal
+Dar alta club
+Menu principal
+Eliminar club
+Menu principal
+Eliminar club
+Menu principal
+Menu principal
+Eliminar club
+Menu principal
