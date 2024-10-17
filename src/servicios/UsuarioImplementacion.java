@@ -58,7 +58,7 @@ public class UsuarioImplementacion implements UsuarioInterfaz {
 				Inicio.UsuarioLista.add(u);
 
 				// Consulta SQL para insertar el nuevo usuario
-				String insertQuery = "INSERT INTO \"dlk_motos\".usuario (id_usuario, nombre_usuario, apellidos_usuario, dni_usuario ,correo_usuario, contra_usuario, tel_usuario, \"esClub\") VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				String insertQuery = "INSERT INTO \"dlk_motos\".usuario (id_usuario, nombre_usuario, apellidos_usuario, dni_usuario ,correo_usuario, contra_usuario, tel_usuario, \"esClub\") VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 				// Ejecutar la inserción a la base de datos
 				try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {

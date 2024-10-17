@@ -4,12 +4,10 @@
 package servicios;
 
 import java.sql.Connection;
-import java.sql.SQLDataException;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.Scanner;
-
-import dto.UsuarioDto;
 
 /**
  * Logica de los metodos de club
@@ -22,31 +20,33 @@ public class ClubImplementacion implements ClubInterfaz {
 
 	@Override
 	public void DarAltaClub() {
-		// TODO Auto-generated method stub
+		
 		try (Connection conexion = ci.GenerarConexion()) {
 
 			if (conexion != null) {
+				System.out.println("················");
+				System.out.println("Creación del club");
+				System.out.println("················");
+				System.out.println("Ingrese nombre del club");
+				String nombre = sc.nextLine();
+				System.out.println("Ingrese Descripcion del club");
+				String descripcion = sc.nextLine();
 
-				System.out.println("Para crear un club necesita ser un usuario");
-				System.out.println("··········································");
-				System.out.println("Ingrese su dni");
-				String dni = sc.nextLine();
+				Long id = util.Util.GenerarIdClub(conexion);
+				LocalDateTime creacion = LocalDateTime.now();
 
-				UsuarioDto u = util.Util.BuscarUsuarioPorDni(dni, conexion); // Buscar en la BD dni
-				if (u != null) {
-					System.out.println("Ingrese nombre del club");
-					String nombre = sc.nextLine();
-					System.out.println("Ingrese Descripcion del club");
-					String descripcion = sc.nextLine();
-					
-					long id = util.Util.GenerarIdClub(conexion);
-					LocalDateTime creacion = LocalDateTime.now();
-					
-					
-					
+				String insertQuery = "INSERT INTO \"dlk_motos\".club (id_club, nombre_club, descripcion_club, creacion_club) VALUES (?,?,?,?) ";
 
-				} else {
-					System.out.println("No se encontró un usuario con el DNI ingresado.");
+				try (PreparedStatement ps = conexion.prepareStatement(insertQuery)) {
+
+					ps.setLong(1, id);
+					ps.setString(2, nombre);
+					ps.setString(3, descripcion);
+					ps.setTimestamp(4, java.sql.Timestamp.valueOf(creacion));// convertir el localDateTime a Timesstamp
+
+					ps.executeUpdate();
+
+					System.out.println("Club creado y guardado con éxito en la base de datos.");
 				}
 
 			} else {

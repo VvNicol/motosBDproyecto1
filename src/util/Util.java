@@ -10,14 +10,16 @@ import dto.UsuarioDto;
 
 /**
  * Clase Util con métodos útiles para la aplicación.
+ * 
  * @author nrojlla 151024
  */
 public class Util {
-	
+
 	/**
+	 * Genera un nuevo ID para el club.
 	 * 
-	 * @param conexion
-	 * @return
+	 * @param conexion Conexión a la base de datos
+	 * @return El nuevo ID generado o null si ocurre un error
 	 */
 	public static Long GenerarIdUsuario(Connection conexion) {
 		Long nuevoId = null; // Usar Long para permitir null
@@ -36,40 +38,56 @@ public class Util {
 				}
 			} catch (SQLException s) {
 				System.err.println("Error al obtener el nuevo ID: " + s.getMessage());
-				// Manejar el error adecuadamente según tus necesidades
 			}
 		} else {
 			System.err.println("La conexión es nula. No se puede generar el ID.");
-		}
-
-		// Verifica si nuevoId es null y maneja el caso si es necesario
-		if (nuevoId == null) {
-			// Maneja el caso en que no se pudo generar un nuevo ID
-			System.err.println("No se pudo generar un nuevo ID.");
 		}
 
 		return nuevoId; // Devuelve el nuevo ID, que puede ser null
 	}
 
 	/**
+	 * Genera un nuevo ID para el club.
 	 * 
-	 * @param conexion
-	 * @return
+	 * @param conexion Conexión a la base de datos
+	 * @return El nuevo ID generado o null si ocurre un error
 	 */
 	public static long GenerarIdClub(Connection conexion) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		Long nuevoId = null;
+		if (conexion != null) {
+
+			try (Statement stmt = conexion.createStatement()) {
+
+				String query = "SELECT COALESCE(MAX(id_club),0) FROM \"dlk_motos\".club";
+
+				try (ResultSet rs = stmt.executeQuery(query)) {
+					if (rs.next()) {
+						nuevoId = rs.getLong(1) + 1;
+					} else {
+						nuevoId = 1L;
+					}
+				}
+			} catch (SQLException s) {
+				System.err.println("Error al obtener el nuevo ID: " + s.getMessage());
+			}
+
+		} else {
+			System.err.println("La conexión es nula. No se puede generar el ID.");
+		}
+
+		return nuevoId;
 	}
 
-	
 	/**
-	 * Busca un usuario por su DNI utilizando una conexión a la base de datos.
-	 * Si se encuentra un usuario con el DNI proporcionado, se devuelve un objeto UsuarioDto.
-	 * Si no se encuentra, se devuelve null.
+	 * Busca un usuario por su DNI utilizando una conexión a la base de datos. Si se
+	 * encuentra un usuario con el DNI proporcionado, se devuelve un objeto
+	 * UsuarioDto. Si no se encuentra, se devuelve null.
 	 *
-	 * @param dni El DNI del usuario que se busca.
+	 * @param dni      El DNI del usuario que se busca.
 	 * @param conexion La conexión a la base de datos.
-	 * @return Un objeto UsuarioDto si se encuentra el usuario, o null si no se encuentra.
+	 * @return Un objeto UsuarioDto si se encuentra el usuario, o null si no se
+	 *         encuentra.
 	 * @throws SQLException Si ocurre un error al acceder a la base de datos.
 	 */
 	public static UsuarioDto BuscarUsuarioPorDni(String dni, Connection conexion) throws SQLException {
@@ -84,7 +102,8 @@ public class Util {
 			// Ejecutar la consulta
 			var resultSet = ps.executeQuery();
 
-			// Verificar si se encontró un resultado y asignar los datos encontrado en obj usuario
+			// Verificar si se encontró un resultado y asignar los datos encontrado en obj
+			// usuario
 			if (resultSet.next()) {
 				usuario = new UsuarioDto();
 				usuario.setId(resultSet.getLong("id_usuario"));
@@ -104,6 +123,4 @@ public class Util {
 
 	}
 
-
-	
 }
