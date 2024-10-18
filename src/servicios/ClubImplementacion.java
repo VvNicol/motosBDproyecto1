@@ -128,18 +128,24 @@ public class ClubImplementacion implements ClubInterfaz {
 							case 1:
 								System.out.println("Ingrese su nuevo nombre:");
 								String nuevoNombre = sc.nextLine();
-								
-								cz.ModificarNombreClub(nuevoNombre,nombre,conexion);
-								
+								cz.ModificarNombreClub(nuevoNombre, nombre, conexion);
+								System.out.println("Para seguir modificando, ingrese de nuevo con su nuevo nombre.");
+								esCerrado = true;
 								break;
 							case 2:
-								
+								System.out.println("Ingrese su nueva descripcion:");
+								String nuevaDescripcion = sc.nextLine();
+								cz.ModificarDescripcionClub(nuevaDescripcion, nombre, conexion);
 								break;
 							case 3:
-								
+								System.out.println("Ingrese su nueva descripcion:");
+								String nuevoCorreo = sc.nextLine();
+								cz.ModificarCorreoClub(nuevoCorreo, nombre, conexion);							
 								break;
 							case 4:
-								
+								System.out.println("Ingrese su nueva descripcion:");
+								String nuevaContrasenia = sc.nextLine();
+								cz.ModificarContraseniaClub(nuevaContrasenia, nombre, conexion);	
 								break;
 							default:
 								System.out.println("Error, opción no válida: " + opcion);

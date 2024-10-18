@@ -226,4 +226,65 @@ public class ConsultaPostgresqlImplementacion implements ConsultaInterfaz {
 		}
 
 	}
+
+	@Override
+	public void ModificarDescripcionClub(String nuevaDescripcion, String nombre, Connection conexion) {
+		String updateQuery = "UPDATE \"dlk_motos\".club SET descripcion_club = ? WHERE nombre_club = ?";
+
+		try (PreparedStatement ps = conexion.prepareStatement(updateQuery)) {
+			ps.setString(1, nuevaDescripcion);
+			ps.setString(2, nombre);
+
+			int filasActualizadas = ps.executeUpdate();
+
+			if (filasActualizadas > 0) {
+				System.out.println("Descripcion modificado con éxito.");
+			} else {
+				System.out.println("No se ha podido modificar la descripcion.");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar la descripcion en la base de datos: " + e.getMessage());
+		}		
+	}
+
+	@Override
+	public void ModificarCorreoClub(String nuevoCorreo, String nombre, Connection conexion) {
+		String updateQuery = "UPDATE \"dlk_motos\".club SET correo_club = ? WHERE nombre_club = ?";
+
+		try (PreparedStatement ps = conexion.prepareStatement(updateQuery)) {
+			ps.setString(1, nuevoCorreo);
+			ps.setString(2, nombre);
+
+			int filasActualizadas = ps.executeUpdate();
+
+			if (filasActualizadas > 0) {
+				System.out.println("Correo modificado con éxito.");
+			} else {
+				System.out.println("No se ha podido modificar el correo");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el correo en la base de datos: " + e.getMessage());
+		}			
+	}
+
+	@Override
+	public void ModificarContraseniaClub(String nuevaContrasenia, String nombre, Connection conexion) {
+		String updateQuery = "UPDATE \"dlk_motos\".club SET contra_club = ? WHERE nombre_club = ?";
+
+		try (PreparedStatement ps = conexion.prepareStatement(updateQuery)) {
+			ps.setString(1, nuevaContrasenia);
+			ps.setString(2, nombre);
+
+			int filasActualizadas = ps.executeUpdate();
+
+			if (filasActualizadas > 0) {
+				System.out.println("Contraseña modificado con éxito.");
+			} else {
+				System.out.println("No se ha podido modificar la contraseña");
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar la contraseña en la base de datos: " + e.getMessage());
+		}	
+		
+	}
 }

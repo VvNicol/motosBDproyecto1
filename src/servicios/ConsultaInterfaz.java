@@ -102,5 +102,35 @@ public interface ConsultaInterfaz {
 	 * @param conexion
 	 */
 	public void ModificarNombreClub(String nuevoNombre, String nombre, Connection conexion);
+	
+	/**
+	 * Modifica la descripcion
+	 * 
+	 * @author nrojlla 181024
+	 * @param nuevaDescripcion
+	 * @param nombre
+	 * @param conexion
+	 */
+	public void ModificarDescripcionClub(String nuevaDescripcion, String nombre, Connection conexion);
+
+	/**
+	 * Modifica el correo
+	 * 
+	 * @author nrojlla 181024
+	 * @param nuevoCorreo
+	 * @param nombre
+	 * @param conexion
+	 */
+	public void ModificarCorreoClub(String nuevoCorreo, String nombre, Connection conexion);
+	
+	/**
+	 * Modifica la contraseña
+	 * 
+	 * @author nrojlla 181024
+	 * @param nuevaContrasenia
+	 * @param nombre
+	 * @param conexion
+	 */
+	public void ModificarContraseniaClub(String nuevaContrasenia, String nombre, Connection conexion);
 
 }
